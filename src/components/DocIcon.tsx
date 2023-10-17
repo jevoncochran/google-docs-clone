@@ -18,7 +18,12 @@ const DocIcon = ({
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="#fff"
-      className={`w-${width.toString()} h-${height.toString()} ${additionalClasses}`}
+      // There is a bug here
+      // The icon on the login page is not respecting the width and height passed in and growing to be way too big
+      // Initially, the height and width is correct but after time, the icon blows up in size
+      // No idea why
+      // Placed max-h and max-w values to see if that solves the problem
+      className={`w-${width} h-${height} max-h-48 max-w-48 ${additionalClasses}`}
     >
       <path
         strokeLinecap="round"

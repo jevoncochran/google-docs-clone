@@ -1,13 +1,56 @@
 "use client";
 
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import Login from "@/components/Login";
 import DocIcon from "@/components/DocIcon";
+import { Dialog, Button } from "@/lib/materialTailwind";
 
 export default function Home() {
   const { data: session } = useSession();
+
+  const [showModal, setShowModal] = useState(false);
+  const [newDocumentTitle, setNewDocumentTitle] = useState("");
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
+
+  const createDcoument = () => {
+    console.log(newDocumentTitle);
+    toggleModal();
+  };
+
+  const newDocModal = (
+    <Dialog
+      size="xs"
+      open={showModal}
+      handler={toggleModal}
+      className="bg-white shadow-none h-[200px] p-5 flex flex-col justify-between"
+    >
+      <input
+        type="text"
+        value={newDocumentTitle}
+        onChange={(e) => setNewDocumentTitle(e.target.value)}
+        placeholder="Enter name of document..."
+        onKeyDown={(e) => e.key === "Enter" && createDcoument()}
+        className="outline-none w-full"
+      />
+      <div>
+        <Button
+          onClick={toggleModal}
+          className="bg-transparent shadow-none hover:shadow-none text-blue-600"
+        >
+          CANCEL
+        </Button>
+        <Button color="blue" className="ml-4" onClick={createDcoument}>
+          CREATE
+        </Button>
+      </div>
+    </Dialog>
+  );
 
   if (!session) {
     return <Login />;
@@ -15,6 +58,7 @@ export default function Home() {
 
   return (
     <div>
+      {newDocModal}
       <section className="bg-[#F0F3F4] pb-10 px-10">
         <div className="max-w-3xl mx-auto">
           <div className="py-6 flex justify-between items-center">
@@ -29,6 +73,7 @@ export default function Home() {
               alt="new Google Jock"
               height={150}
               width={150}
+              onClick={toggleModal}
               className="border-2 rounded-md cursor-pointer hover:border hover:border-blue-500"
             />
             <p className="mt-2 font-semibold text-sm text-gray-700">Blank</p>

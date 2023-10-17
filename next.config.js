@@ -3,12 +3,12 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname: "avatars.githubusercontent.com",
+        hostname: "ssl.gstatic.com",
         protocol: "https",
         port: "",
       },
       {
-        hostname: "ssl.gstatic.com",
+        hostname: "lh3.googleusercontent.com",
         protocol: "https",
         port: "",
       },

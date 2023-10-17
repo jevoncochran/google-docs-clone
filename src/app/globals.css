@@ -2,3 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+thead {
+  @apply h-14;
+}
+
+th {
+  @apply text-left text-base font-normal p-0 align-top;
+}
+
+tbody tr {
+  @apply hover:bg-[#E7F0FE] hover:rounded-full;
+}

@@ -7,6 +7,11 @@ const nextConfig = {
         protocol: "https",
         port: "",
       },
+      {
+        hostname: "ssl.gstatic.com",
+        protocol: "https",
+        port: "",
+      },
     ],
   },
 };

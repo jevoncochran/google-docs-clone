@@ -2,7 +2,6 @@ import { customInitApp } from "@/utils/db";
 import { getFirestore, Timestamp } from "firebase-admin/firestore";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/options";
-import { serverTimestamp } from "firebase/firestore";
 
 customInitApp();
 const db = getFirestore();
@@ -13,10 +12,6 @@ export async function POST(req: Request) {
     const body = await req.json();
 
     const { fileName } = body;
-
-    console.log(fileName);
-    console.log(session?.user?.email);
-    console.log(serverTimestamp());
 
     const userDoc = await db
       .collection("userDocs")

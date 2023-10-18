@@ -1,19 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import Login from "@/components/Login";
-import DocIcon from "@/components/DocIcon";
 import { Dialog, Button } from "@/lib/materialTailwind";
 import axios from "axios";
+import db from "@/firebase/config";
+import { collection, onSnapshot, query } from "firebase/firestore";
+import DocumentRow from "@/components/DocumentRow";
 
 export default function Home() {
   const { data: session } = useSession();
 
   const [showModal, setShowModal] = useState(false);
   const [newDocumentTitle, setNewDocumentTitle] = useState("");
+  const [documents, setDocuments] = useState([]);
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -57,6 +60,25 @@ export default function Home() {
     </Dialog>
   );
 
+  useEffect(() => {
+    const q = query(collection(db, `userDocs/${session?.user?.email}/docs`));
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      let docArr = [];
+
+      querySnapshot.forEach((doc) => {
+        docArr.push({ ...doc.data(), id: doc.id });
+      });
+      setDocuments(docArr);
+
+      return () => unsubscribe();
+    });
+  }, [session?.user?.email]);
+
+  useEffect(() => {
+    console.log(documents);
+  }, [documents]);
+
   if (!session) {
     return <Login />;
   }
@@ -96,36 +118,9 @@ export default function Home() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
-                  <div className="flex items-center">
-                    <DocIcon additionalClasses="mr-4" />
-                    Jevon info
-                  </div>
-                </td>
-                <td>me</td>
-                <td>Sept 29, 2023</td>
-              </tr>
-              <tr>
-                <td>
-                  <div className="flex items-center">
-                    <DocIcon additionalClasses="mr-4" />
-                    Zenfeat - Full Stack Developer - Sep 2023
-                  </div>
-                </td>
-                <td>me</td>
-                <td>Sept 16, 2023</td>
-              </tr>
-              <tr>
-                <td>
-                  <div className="flex items-center">
-                    <DocIcon additionalClasses="mr-4" />
-                    eSumry - Full Stack Developer - Sep 2023
-                  </div>
-                </td>
-                <td>me</td>
-                <td>Sept 16, 2023</td>
-              </tr>
+              {documents.map((doc) => (
+                <DocumentRow key={doc.id} doc={doc} />
+              ))}
             </tbody>
           </table>
         </div>

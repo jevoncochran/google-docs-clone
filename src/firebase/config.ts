@@ -1,5 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp, getApps } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCI4NjD5ZuvDLyAyZWd6WkxCbirDdhiqJw",
@@ -12,4 +13,6 @@ const firebaseConfig = {
 
 let app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
-export default app;
+const db = getFirestore(app);
+
+export default db;

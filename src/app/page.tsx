@@ -10,6 +10,7 @@ import axios from "axios";
 import db from "@/firebase/config";
 import { collection, onSnapshot, query } from "firebase/firestore";
 import DocumentRow from "@/components/DocumentRow";
+import Header from "@/components/Header";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -85,6 +86,7 @@ export default function Home() {
 
   return (
     <div>
+      <Header />
       {newDocModal}
       <section className="bg-[#F0F3F4] pb-10 px-10">
         <div className="max-w-3xl mx-auto">

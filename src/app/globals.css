@@ -13,3 +13,7 @@ th {
 tbody tr {
   @apply hover:bg-[#E7F0FE] hover:rounded-full;
 }
+
+.option {
+  @apply cursor-pointer py-1 px-2 rounded-md hover:bg-gray-200;
+}

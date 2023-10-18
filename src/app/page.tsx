@@ -7,6 +7,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import Login from "@/components/Login";
 import DocIcon from "@/components/DocIcon";
 import { Dialog, Button } from "@/lib/materialTailwind";
+import axios from "axios";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -19,7 +20,11 @@ export default function Home() {
   };
 
   const createDcoument = () => {
-    console.log(newDocumentTitle);
+    axios
+      .post("/api/docs", { fileName: newDocumentTitle })
+      .then((res) => console.log(res.data));
+
+    setNewDocumentTitle("");
     toggleModal();
   };
 

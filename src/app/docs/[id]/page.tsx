@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent, useCallback, useRef } from "react";
 import Login from "@/components/Login";
 import { useSession } from "next-auth/react";
 import DocIcon from "@/components/DocIcon";
@@ -11,6 +11,8 @@ import { Button } from "@/lib/materialTailwind";
 import { CiLock as LockIcon } from "react-icons/ci";
 import Image from "next/image";
 import TextEditor from "@/components/TextEditor";
+import debounce from "lodash.debounce";
+import axios from "axios";
 
 const DocPage = ({ params }: { params: { id: string } }) => {
   const { data: session } = useSession();
@@ -20,6 +22,22 @@ const DocPage = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
 
   const [document, setDocument] = useState(null);
+  const [title, setTitle] = useState(document?.fileName);
+
+  let titleRef = useRef(null);
+
+  const onTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+
+    deboundedUpdateTitle(e.target.value);
+  };
+
+  const deboundedUpdateTitle = useCallback(
+    debounce((title) => {
+      axios.put(`/api/docs/${id}`, { fileName: title });
+    }, 500),
+    []
+  );
 
   useEffect(() => {
     const docRef = doc(db, `userDocs/${session?.user?.email}/docs`, id);
@@ -41,7 +59,20 @@ const DocPage = ({ params }: { params: { id: string } }) => {
         </div>
 
         <div className="flex-grow px-2">
-          <h2>{document?.fileName}</h2>
+          <div>
+            <input
+              type="text"
+              value={title ?? document?.fileName}
+              ref={titleRef}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  titleRef.current?.blur();
+                }
+              }}
+              onChange={(e) => onTitleChange(e)}
+              className=" w-fit p-1 border border-white hover:border-gray-800 rounded-md box-border"
+            />
+          </div>
           <div className="flex items-center text-sm space-x-1">
             <p className="option">File</p>
             <p className="option">Edit</p>

@@ -5,7 +5,7 @@ import Login from "@/components/Login";
 import { useSession } from "next-auth/react";
 import DocIcon from "@/components/DocIcon";
 import { useRouter } from "next/navigation";
-import { getDoc, doc, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import db from "@/firebase/config";
 import { Button } from "@/lib/materialTailwind";
 import { CiLock as LockIcon } from "react-icons/ci";
@@ -28,7 +28,6 @@ const DocPage = ({ params }: { params: { id: string } }) => {
       return () => unsub();
     });
   }, [session?.user?.email]);
-
 
   if (!session) {
     return <Login />;
@@ -68,7 +67,7 @@ const DocPage = ({ params }: { params: { id: string } }) => {
           className="ml-5 rounded-full"
         />
       </header>
-      <TextEditor docId={id} />
+      {document && <TextEditor docId={id} text={document?.text} />}
     </div>
   );
 };

@@ -2,22 +2,27 @@
 
 import { useState, useCallback } from "react";
 import { Editor } from "react-draft-wysiwyg";
-import { EditorState, convertToRaw } from "draft-js";
+import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import axios from "axios";
 import debounce from "lodash.debounce";
 
 interface TextEditorProps {
   docId: string;
+  text: any;
 }
 
-const TextEditor = ({ docId }: TextEditorProps) => {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+const TextEditor = ({ docId, text }: TextEditorProps) => {
+  const [editorState, setEditorState] = useState(
+    text
+      ? EditorState.createWithContent(convertFromRaw(text))
+      : EditorState.createEmpty()
+  );
 
   const onEditorStateChange = (editorState: EditorState) => {
     setEditorState(editorState);
 
-    const rawEditorState = convertToRaw(editorState.getCurrentContent())
+    const rawEditorState = convertToRaw(editorState.getCurrentContent());
 
     debouncedUpdateDoc(rawEditorState);
   };

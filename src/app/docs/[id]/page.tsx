@@ -5,11 +5,12 @@ import Login from "@/components/Login";
 import { useSession } from "next-auth/react";
 import DocIcon from "@/components/DocIcon";
 import { useRouter } from "next/navigation";
-import { getDoc, doc, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import db from "@/firebase/config";
 import { Button } from "@/lib/materialTailwind";
 import { CiLock as LockIcon } from "react-icons/ci";
 import Image from "next/image";
+import TextEditor from "@/components/TextEditor";
 
 const DocPage = ({ params }: { params: { id: string } }) => {
   const { data: session } = useSession();
@@ -28,14 +29,10 @@ const DocPage = ({ params }: { params: { id: string } }) => {
     });
   }, [session?.user?.email]);
 
-  useEffect(() => {
-    console.log(document);
-  }, [document]);
-
   if (!session) {
     return <Login />;
   }
-  
+
   return (
     <div>
       <header className="flex justify-between items-center p-3 pb-1">
@@ -70,6 +67,7 @@ const DocPage = ({ params }: { params: { id: string } }) => {
           className="ml-5 rounded-full"
         />
       </header>
+      {document && <TextEditor docId={id} text={document?.text} />}
     </div>
   );
 };

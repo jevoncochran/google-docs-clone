@@ -1,15 +1,19 @@
 "use client";
 
+import { useContext } from "react";
 import { Button } from "@/lib/materialTailwind";
 import Image from "next/image";
 import DocIcon from "./DocIcon";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { UiContext } from "@/context/UiContext";
 
 const Header = () => {
   const { data: session } = useSession();
 
+  const { toggleAccountMenu } = useContext(UiContext);
+
   return (
-    <div className="sticky top-0 z-50 flex items-center px-4 py-2 shadow-md bg-white">
+    <div className="sticky top-0 z-50 flex items-center h-[64px] px-4 py-2 shadow-md bg-white box-border">
       <Button
         // color="blue"
         ripple={true}
@@ -58,9 +62,9 @@ const Header = () => {
       <Image
         src={session?.user?.image!}
         alt="Jevon Cochran"
-        height={70}
-        width={70}
-        onClick={() => signOut()}
+        height={50}
+        width={50}
+        onClick={toggleAccountMenu}
         className="rounded-full cursor-pointer"
       />
     </div>

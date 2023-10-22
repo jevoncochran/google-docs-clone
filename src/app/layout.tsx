@@ -1,8 +1,9 @@
-import Header from "@/components/Header";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import SessionProvider from "@/components/SessionProvider";
+import { UiCtxProvider } from "@/context/UiContext";
+import AccountMenu from "@/components/AccountMenu";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +20,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <SessionProvider>
-        <body className={inter.className}>{children}</body>
+        <UiCtxProvider>
+          <body className={inter.className}>
+            <AccountMenu />
+            {children}
+          </body>
+        </UiCtxProvider>
       </SessionProvider>
     </html>
   );

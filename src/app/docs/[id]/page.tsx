@@ -1,6 +1,13 @@
 "use client";
 
-import { useState, useEffect, ChangeEvent, useCallback, useRef } from "react";
+import {
+  useState,
+  useEffect,
+  ChangeEvent,
+  useCallback,
+  useRef,
+  useContext,
+} from "react";
 import Login from "@/components/Login";
 import { signOut, useSession } from "next-auth/react";
 import DocIcon from "@/components/DocIcon";
@@ -13,6 +20,7 @@ import Image from "next/image";
 import TextEditor from "@/components/TextEditor";
 import debounce from "lodash.debounce";
 import axios from "axios";
+import { UiContext } from "@/context/UiContext";
 
 const DocPage = ({ params }: { params: { id: string } }) => {
   const { data: session } = useSession();
@@ -20,6 +28,8 @@ const DocPage = ({ params }: { params: { id: string } }) => {
   const { id } = params;
 
   const router = useRouter();
+
+  const { toggleAccountMenu } = useContext(UiContext);
 
   const [document, setDocument] = useState(null);
   const [title, setTitle] = useState(document?.fileName);
@@ -49,7 +59,7 @@ const DocPage = ({ params }: { params: { id: string } }) => {
 
   return (
     <div>
-      <header className="flex justify-between items-center p-3 pb-1">
+      <header className="flex justify-between items-center p-3 pb-1 h-[64px]">
         <div onClick={() => router.push("/")} className="cursor-pointer">
           <DocIcon />
         </div>
@@ -91,7 +101,7 @@ const DocPage = ({ params }: { params: { id: string } }) => {
           alt={session.user?.name!}
           height={50}
           width={50}
-          onClick={() => signOut()}
+          onClick={toggleAccountMenu}
           className="ml-5 rounded-full cursor-pointer"
         />
       </header>

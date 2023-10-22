@@ -41,7 +41,7 @@ const TextEditor = ({ docId, text }: TextEditorProps) => {
       <Editor
         editorState={editorState}
         onEditorStateChange={onEditorStateChange}
-        toolbarClassName="flex !justify-center sticky top-0 z-50 mx-auto"
+        toolbarClassName="flex !justify-center sticky top-0 z-40 mx-auto"
         editorClassName="mt-6 p-10 bg-white shadow-lg max-w-4xl mx-auto mb-12 border min-h-screen"
       />
     </div>

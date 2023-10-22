@@ -11,4 +11,5 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   adapter: FirestoreAdapter(app),
+  session: { strategy: "jwt" },
 };

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, ChangeEvent, useCallback, useRef } from "react";
 import Login from "@/components/Login";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import DocIcon from "@/components/DocIcon";
 import { useRouter } from "next/navigation";
 import { doc, onSnapshot } from "firebase/firestore";
@@ -46,10 +46,6 @@ const DocPage = ({ params }: { params: { id: string } }) => {
       return () => unsub();
     });
   }, [session?.user?.email]);
-
-  if (!session) {
-    return <Login />;
-  }
 
   return (
     <div>
@@ -95,7 +91,8 @@ const DocPage = ({ params }: { params: { id: string } }) => {
           alt={session.user?.name!}
           height={50}
           width={50}
-          className="ml-5 rounded-full"
+          onClick={() => signOut()}
+          className="ml-5 rounded-full cursor-pointer"
         />
       </header>
       {document && <TextEditor docId={id} text={document?.text} />}

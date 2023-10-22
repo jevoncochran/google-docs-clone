@@ -32,7 +32,7 @@ const Header = () => {
       </Button>
       <DocIcon />
       <h1 className="hidden md:flex ml-2 text-gray-700 text-2xl">
-        Google Jock
+        Google Jocs
       </h1>
 
       <div className="flex flex-grow items-center px-5 py-2 bg-gray-100 rounded-lg mx-5 md:mx-20 focus-within:shadow-md">

@@ -76,14 +76,6 @@ export default function Home() {
     });
   }, [session?.user?.email]);
 
-  useEffect(() => {
-    console.log(documents);
-  }, [documents]);
-
-  if (!session) {
-    return <Login />;
-  }
-
   return (
     <div>
       <Header />

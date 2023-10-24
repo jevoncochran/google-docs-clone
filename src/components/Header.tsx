@@ -16,7 +16,7 @@ const Header = () => {
     session?.user?.name &&
     session?.user?.image && (
       <div className="sticky top-0 z-50 flex items-center h-[64px] px-4 py-2 shadow-md bg-white box-border">
-        <Button
+        {/* <Button
           // color="blue"
           ripple={true}
           className="h-20 w-20 flex items-center justify-center bg-transparent hover:bg-gray-100 border-0 shadow-none hover:border-0 hover:shadow-none rounded-full"
@@ -35,7 +35,7 @@ const Header = () => {
               d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
             />
           </svg>
-        </Button>
+        </Button> */}
         <DocIcon />
         <h1 className="hidden md:flex ml-2 text-gray-700 text-2xl">
           Google Jocs

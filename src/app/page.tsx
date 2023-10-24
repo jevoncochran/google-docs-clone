@@ -33,32 +33,33 @@ export default function Home() {
   };
 
   const newDocModal = (
-    <Dialog
-      size="xs"
-      open={showModal}
-      handler={toggleModal}
-      className="bg-white shadow-none h-[200px] p-5 flex flex-col justify-between"
-    >
-      {/* <input
-        type="text"
-        value={newDocumentTitle}
-        onChange={(e) => setNewDocumentTitle(e.target.value)}
-        placeholder="Enter name of document..."
-        onKeyDown={(e) => e.key === "Enter" && createDcoument()}
-        className="outline-none w-full"
-      />
-      <div>
-        <Button
-          onClick={toggleModal}
-          className="bg-transparent shadow-none hover:shadow-none text-blue-600"
-        >
-          CANCEL
-        </Button>
-        <Button color="blue" className="ml-4" onClick={createDcoument}>
-          CREATE
-        </Button>
-      </div> */}
-    </Dialog>
+    // <Dialog
+    //   size="xs"
+    //   open={showModal}
+    //   handler={toggleModal}
+    //   className="bg-white shadow-none h-[200px] p-5 flex flex-col justify-between"
+    // >
+    //   <input
+    //     type="text"
+    //     value={newDocumentTitle}
+    //     onChange={(e) => setNewDocumentTitle(e.target.value)}
+    //     placeholder="Enter name of document..."
+    //     onKeyDown={(e) => e.key === "Enter" && createDcoument()}
+    //     className="outline-none w-full"
+    //   />
+    //   <div>
+    //     <Button
+    //       onClick={toggleModal}
+    //       className="bg-transparent shadow-none hover:shadow-none text-blue-600"
+    //     >
+    //       CANCEL
+    //     </Button>
+    //     <Button color="blue" className="ml-4" onClick={createDcoument}>
+    //       CREATE
+    //     </Button>
+    //   </div>
+    // </Dialog>
+    <div>hello</div>
   );
 
   useEffect(() => {
@@ -78,7 +79,7 @@ export default function Home() {
 
   return (
     <div>
-      {/* <Header /> */}
+      <Header />
       {newDocModal}
       <section className="bg-[#F0F3F4] pb-10 px-10">
         <div className="max-w-3xl mx-auto">

@@ -14,14 +14,23 @@ export async function PUT(req: Request, { params }: Params) {
     const { id } = params;
     const body = await req.json();
 
-    const { text } = body;
+    const { text, fileName } = body;
 
-    await db
-      .collection("userDocs")
-      .doc(session?.user?.email)
-      .collection("docs")
-      .doc(id)
-      .set({ text }, { merge: true });
+    if (!text) {
+      await db
+        .collection("userDocs")
+        .doc(session?.user?.email as string)
+        .collection("docs")
+        .doc(id)
+        .set({ fileName }, { merge: true });
+    } else {
+      await db
+        .collection("userDocs")
+        .doc(session?.user?.email as string)
+        .collection("docs")
+        .doc(id)
+        .set({ text }, { merge: true });
+    }
 
     return new Response(JSON.stringify("ok"), { status: 201 });
   } catch (error) {

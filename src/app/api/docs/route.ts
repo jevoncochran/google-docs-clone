@@ -15,7 +15,7 @@ export async function POST(req: Request) {
 
     const userDoc = await db
       .collection("userDocs")
-      .doc(session?.user?.email)
+      .doc(session?.user?.email as string)
       .collection("docs")
       .add({
         fileName,

@@ -14,6 +14,7 @@ const nextConfig = {
       },
     ],
   },
+  transpilePackages: ["@next-auth/firebase-adapter"],
 };
 
 module.exports = nextConfig;

@@ -1,7 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Login from "@/components/Login";
+import {
+  useState,
+  useEffect,
+  ChangeEvent,
+  useRef,
+  useContext,
+  useMemo,
+} from "react";
 import { useSession } from "next-auth/react";
 import DocIcon from "@/components/DocIcon";
 import { useRouter } from "next/navigation";
@@ -11,6 +17,10 @@ import { Button } from "@/lib/materialTailwind";
 import { CiLock as LockIcon } from "react-icons/ci";
 import Image from "next/image";
 import TextEditor from "@/components/TextEditor";
+import debounce from "lodash.debounce";
+import axios from "axios";
+import { UiContext } from "@/context/UiContext";
+import { Document } from "@/types";
 
 const DocPage = ({ params }: { params: { id: string } }) => {
   const { data: session } = useSession();
@@ -19,29 +29,57 @@ const DocPage = ({ params }: { params: { id: string } }) => {
 
   const router = useRouter();
 
-  const [document, setDocument] = useState(null);
+  const { toggleAccountMenu } = useContext(UiContext);
+
+  const [document, setDocument] = useState<Document | null>(null);
+  const [title, setTitle] = useState(document?.fileName);
+
+  let titleRef = useRef<HTMLInputElement | null>(null);
+
+  const onTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+
+    deboundedUpdateTitle(e.target.value);
+  };
+
+  const deboundedUpdateTitle = useMemo(
+    () =>
+      debounce((title) => {
+        axios.put(`/api/docs/${id}`, { fileName: title });
+      }, 500),
+    [id]
+  );
 
   useEffect(() => {
     const docRef = doc(db, `userDocs/${session?.user?.email}/docs`, id);
-    const unsub = onSnapshot(docRef, (doc) => {
+    const unsub = onSnapshot(docRef, (doc: any) => {
       setDocument({ ...doc.data(), id });
       return () => unsub();
     });
-  }, [session?.user?.email]);
-
-  if (!session) {
-    return <Login />;
-  }
+  }, [session?.user?.email, id]);
 
   return (
     <div>
-      <header className="flex justify-between items-center p-3 pb-1">
+      <header className="flex justify-between items-center p-3 pb-1 h-[64px]">
         <div onClick={() => router.push("/")} className="cursor-pointer">
           <DocIcon />
         </div>
 
         <div className="flex-grow px-2">
-          <h2>{document?.fileName}</h2>
+          <div>
+            <input
+              type="text"
+              value={title ?? document?.fileName}
+              ref={titleRef}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  titleRef.current?.blur();
+                }
+              }}
+              onChange={(e) => onTitleChange(e)}
+              className=" w-fit p-1 border border-white hover:border-gray-800 rounded-md box-border"
+            />
+          </div>
           <div className="flex items-center text-sm space-x-1">
             <p className="option">File</p>
             <p className="option">Edit</p>
@@ -60,11 +98,12 @@ const DocPage = ({ params }: { params: { id: string } }) => {
         </Button>
 
         <Image
-          src={session.user?.image!}
-          alt={session.user?.name!}
+          src={session?.user?.image!}
+          alt={session?.user?.name!}
           height={50}
           width={50}
-          className="ml-5 rounded-full"
+          onClick={toggleAccountMenu}
+          className="ml-5 rounded-full cursor-pointer"
         />
       </header>
       {document && <TextEditor docId={id} text={document?.text} />}

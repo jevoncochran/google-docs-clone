@@ -14,6 +14,7 @@ import { Document } from "@/types";
 
 export default function Home() {
   const { data: session } = useSession();
+  console.log(session);
 
   const [showModal, setShowModal] = useState(false);
   const [newDocumentTitle, setNewDocumentTitle] = useState("");
@@ -61,20 +62,20 @@ export default function Home() {
     </Dialog>
   );
 
-  useEffect(() => {
-    const q = query(collection(db, `userDocs/${session?.user?.email}/docs`));
+  // useEffect(() => {
+  //   const q = query(collection(db, `userDocs/${session?.user?.email}/docs`));
 
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      let docArr: Document[] = [];
+  //   const unsubscribe = onSnapshot(q, (querySnapshot) => {
+  //     let docArr: Document[] = [];
 
-      querySnapshot.forEach((doc: any) => {
-        docArr.push({ ...doc.data(), id: doc.id });
-      });
-      setDocuments(docArr);
-    });
+  //     querySnapshot.forEach((doc: any) => {
+  //       docArr.push({ ...doc.data(), id: doc.id });
+  //     });
+  //     setDocuments(docArr);
+  //   });
 
-    return () => unsubscribe();
-  }, [session?.user?.email]);
+  //   return () => unsubscribe();
+  // }, [session?.user?.email]);
 
   return (
     <div>

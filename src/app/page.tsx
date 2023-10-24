@@ -71,9 +71,9 @@ export default function Home() {
         docArr.push({ ...doc.data(), id: doc.id });
       });
       setDocuments(docArr);
-
-      return () => unsubscribe();
     });
+
+    return () => unsubscribe();
   }, [session?.user?.email]);
 
   return (

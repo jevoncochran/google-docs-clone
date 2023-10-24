@@ -78,8 +78,8 @@ export default function Home() {
 
   return (
     <div>
-      <Header />
-      {/* {newDocModal}
+      {/* <Header /> */}
+      {/* {newDocModal} */}
       <section className="bg-[#F0F3F4] pb-10 px-10">
         <div className="max-w-3xl mx-auto">
           <div className="py-6 flex justify-between items-center">
@@ -101,7 +101,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section>
+      {/* <section>
         <div className="max-w-3xl mx-auto py-8">
           <table className="table-auto w-full">
             <thead>

@@ -101,7 +101,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      {/* <section>
+      <section>
         <div className="max-w-3xl mx-auto py-8">
           <table className="table-auto w-full">
             <thead>
@@ -118,7 +118,7 @@ export default function Home() {
             </tbody>
           </table>
         </div>
-      </section> */}
+      </section>
     </div>
   );
 }

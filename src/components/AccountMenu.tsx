@@ -14,14 +14,14 @@ const AccountMenu = () => {
 
   const { showAccountMenu, toggleAccountMenu } = useContext(UiContext);
 
-  const accountMenuRef = useRef(null);
+  const accountMenuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: MouseEvent) => {
       if (
         showAccountMenu &&
         accountMenuRef.current &&
-        !accountMenuRef.current.contains(event.target)
+        !accountMenuRef.current.contains(event.target as Node)
       ) {
         toggleAccountMenu();
       }
@@ -36,7 +36,7 @@ const AccountMenu = () => {
   return (
     <div
       ref={accountMenuRef}
-      className={`bg-[#EDF2FA] w-[450px] absolute top-[64px] right-9 z-50 rounded-xl shadow-xl border border-gray-300 p-3 ${
+      className={`bg-[#EDF2FA] w-[400px] absolute top-[64px] right-9 z-50 rounded-xl shadow-xl border border-gray-300 p-3 ${
         showAccountMenu ? "" : "hidden"
       }`}
     >
@@ -50,14 +50,14 @@ const AccountMenu = () => {
       </div>
       <div className="flex flex-col items-center p-4">
         <Image
-          src={session?.user?.image}
-          alt={session?.user?.name}
+          src={session?.user?.image!}
+          alt={session?.user?.name!}
           width={80}
           height={80}
           className="rounded-full"
         />
         <p className="pt-2 text-xl">{`Hi, ${
-          session?.user.name?.split(" ")[0]
+          session?.user?.name?.split(" ")[0]
         }!`}</p>
       </div>
       <div className="flex justify-center pb-4">

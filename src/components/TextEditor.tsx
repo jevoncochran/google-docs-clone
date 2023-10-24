@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useMemo } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -27,13 +27,14 @@ const TextEditor = ({ docId, text }: TextEditorProps) => {
     debouncedUpdateDoc(rawEditorState);
   };
 
-  const debouncedUpdateDoc = useCallback(
-    debounce((content) => {
-      axios.put(`/api/docs/${docId}`, {
-        text: content,
-      });
-    }, 1000),
-    []
+  const debouncedUpdateDoc = useMemo(
+    () =>
+      debounce((content) => {
+        axios.put(`/api/docs/${docId}`, {
+          text: content,
+        });
+      }, 1000),
+    [docId]
   );
 
   return (

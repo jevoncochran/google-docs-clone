@@ -1,6 +1,6 @@
 import { initializeApp, getApps, cert } from "firebase-admin/app";
 
-const firebaseAdminConfig = {
+export const firebaseAdminConfig = {
   credential: cert({
     projectId: process.env.PROJECT_ID,
     clientEmail: process.env.CLIENT_EMAIL,

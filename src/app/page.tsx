@@ -11,13 +11,14 @@ import db from "@/firebase/config";
 import { collection, onSnapshot, query } from "firebase/firestore";
 import DocumentRow from "@/components/DocumentRow";
 import Header from "@/components/Header";
+import { Document } from "@/types";
 
 export default function Home() {
   const { data: session } = useSession();
 
   const [showModal, setShowModal] = useState(false);
   const [newDocumentTitle, setNewDocumentTitle] = useState("");
-  const [documents, setDocuments] = useState([]);
+  const [documents, setDocuments] = useState<Document[]>([]);
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -65,9 +66,9 @@ export default function Home() {
     const q = query(collection(db, `userDocs/${session?.user?.email}/docs`));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      let docArr = [];
+      let docArr: Document[] = [];
 
-      querySnapshot.forEach((doc) => {
+      querySnapshot.forEach((doc: any) => {
         docArr.push({ ...doc.data(), id: doc.id });
       });
       setDocuments(docArr);

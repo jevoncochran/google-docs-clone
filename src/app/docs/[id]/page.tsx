@@ -4,12 +4,11 @@ import {
   useState,
   useEffect,
   ChangeEvent,
-  useCallback,
   useRef,
   useContext,
+  useMemo,
 } from "react";
-import Login from "@/components/Login";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import DocIcon from "@/components/DocIcon";
 import { useRouter } from "next/navigation";
 import { doc, onSnapshot } from "firebase/firestore";
@@ -21,6 +20,7 @@ import TextEditor from "@/components/TextEditor";
 import debounce from "lodash.debounce";
 import axios from "axios";
 import { UiContext } from "@/context/UiContext";
+import { Document } from "@/types";
 
 const DocPage = ({ params }: { params: { id: string } }) => {
   const { data: session } = useSession();
@@ -31,10 +31,10 @@ const DocPage = ({ params }: { params: { id: string } }) => {
 
   const { toggleAccountMenu } = useContext(UiContext);
 
-  const [document, setDocument] = useState(null);
+  const [document, setDocument] = useState<Document | null>(null);
   const [title, setTitle] = useState(document?.fileName);
 
-  let titleRef = useRef(null);
+  let titleRef = useRef<HTMLInputElement | null>(null);
 
   const onTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -42,20 +42,21 @@ const DocPage = ({ params }: { params: { id: string } }) => {
     deboundedUpdateTitle(e.target.value);
   };
 
-  const deboundedUpdateTitle = useCallback(
-    debounce((title) => {
-      axios.put(`/api/docs/${id}`, { fileName: title });
-    }, 500),
-    []
+  const deboundedUpdateTitle = useMemo(
+    () =>
+      debounce((title) => {
+        axios.put(`/api/docs/${id}`, { fileName: title });
+      }, 500),
+    [id]
   );
 
   useEffect(() => {
     const docRef = doc(db, `userDocs/${session?.user?.email}/docs`, id);
-    const unsub = onSnapshot(docRef, (doc) => {
+    const unsub = onSnapshot(docRef, (doc: any) => {
       setDocument({ ...doc.data(), id });
       return () => unsub();
     });
-  }, [session?.user?.email]);
+  }, [session?.user?.email, id]);
 
   return (
     <div>
@@ -97,8 +98,8 @@ const DocPage = ({ params }: { params: { id: string } }) => {
         </Button>
 
         <Image
-          src={session.user?.image!}
-          alt={session.user?.name!}
+          src={session?.user?.image!}
+          alt={session?.user?.name!}
           height={50}
           width={50}
           onClick={toggleAccountMenu}

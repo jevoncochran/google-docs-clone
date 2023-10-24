@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import Login from "@/components/Login";
 import { Dialog, Button } from "@/lib/materialTailwind";
 import axios from "axios";
 import db from "@/firebase/config";

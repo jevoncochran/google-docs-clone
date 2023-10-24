@@ -78,7 +78,7 @@ export default function Home() {
 
   return (
     <div>
-      <Header />
+      {/* <Header />
       {newDocModal}
       <section className="bg-[#F0F3F4] pb-10 px-10">
         <div className="max-w-3xl mx-auto">
@@ -118,7 +118,8 @@ export default function Home() {
             </tbody>
           </table>
         </div>
-      </section>
+      </section> */}
+      hello
     </div>
   );
 }

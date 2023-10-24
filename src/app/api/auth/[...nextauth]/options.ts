@@ -12,4 +12,5 @@ export const authOptions: NextAuthOptions = {
   ],
   adapter: FirestoreAdapter(firebaseAdminConfig),
   session: { strategy: "jwt" },
+  secret: process.env.NEXTAUTH_SECRET,
 };
